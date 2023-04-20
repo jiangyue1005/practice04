@@ -10,15 +10,6 @@ public abstract class Omikuji implements Fortune{
 	protected String gakumon;
 	
 	public abstract void setUnsei();
-
-//	public String getBirthday() {
-//		return birthday;
-//	}
-//
-//	public void setBirthday(String birthday) {
-//		this.birthday = birthday;
-//
-//	}
 	
 	public String disp() {
 		return String.format(DISP_STR, getUnsei());

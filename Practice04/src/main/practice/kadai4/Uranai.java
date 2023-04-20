@@ -52,7 +52,6 @@ public class Uranai extends HttpServlet {
 		FileReader fr = null;
 
 		Omikuji omikuji = null;
-
 		// ドライバの初期化
 		try {
 			Class.forName("org.postgresql.Driver");
