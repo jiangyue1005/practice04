@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+
+	<welcome-file-list>
+		<welcome-file>uranai.jsp</welcome-file>
+	</welcome-file-list>
+
+	<servlet>
+		<servlet-name>Uranai</servlet-name>
+		<servlet-class>kadai4.Uranai</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Uranai</servlet-name>
+		<url-pattern>/uranai</url-pattern>
+	</servlet-mapping>
+</web-app>
+
