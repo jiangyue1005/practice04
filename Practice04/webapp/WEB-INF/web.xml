@@ -6,12 +6,12 @@
 	</welcome-file-list>
 
 	<servlet>
-		<servlet-name>Uranai</servlet-name>
-		<servlet-class>kadai4.Uranai</servlet-class>
+		<servlet-name>UranaiServlet</servlet-name>
+		<servlet-class>kadai4.UranaiServlet</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>Uranai</servlet-name>
+		<servlet-name>UranaiServlet</servlet-name>
 		<url-pattern>/uranai</url-pattern>
 	</servlet-mapping>
 </web-app>

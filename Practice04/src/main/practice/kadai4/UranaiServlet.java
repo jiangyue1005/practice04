@@ -20,12 +20,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class Uranai extends HttpServlet {
+/**
+ * @author y_jiang 占いクラス
+ */
+public class UranaiServlet extends HttpServlet {
+	/**
+	 * post処理メソッド
+	 */
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
 
+	/**
+	 * get処理メソッド
+	 */
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -105,7 +114,7 @@ public class Uranai extends HttpServlet {
 				fr.close();
 			}
 
-			// ****************画面から誕生日取得****************
+			// 画面から誕生日取得
 			String key = request.getParameter("birthday");
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 
@@ -116,13 +125,8 @@ public class Uranai extends HttpServlet {
 			// データ有無判定
 			boolean resultFlg = false;
 
-			// ランダムomikujicd生成
-			Random random = new Random();
-			String omikujicd = Integer.toString(random.nextInt(count));
-
 			// 誕生日をDate型に
-			SimpleDateFormat sdFormat1 = new SimpleDateFormat("yyyyMMdd");
-			Date birth = sdFormat1.parse(key);
+			Date birth = sdf.parse(key);
 			long newBirth = birth.getTime();
 
 			// 日付型変換
@@ -132,15 +136,20 @@ public class Uranai extends HttpServlet {
 			java.sql.Date birthday = new java.sql.Date(newBirth);
 
 			// resultテーブルに同じデータが存在するかどうかを判定
+			String omikujicd = null;
 			PreparedStatement resultInfo = con.prepareStatement(SQL5);
 			resultInfo.setDate(1, uranaidate);
 			resultInfo.setDate(2, birthday);
 			ResultSet resultRs = resultInfo.executeQuery();
-
 			while (resultRs.next()) {
 				resultFlg = true;
 				// おみくじコード取得
 				omikujicd = resultRs.getString("omikujicd");
+			}
+			if (!resultFlg) {
+				// ランダムomikujicd生成
+				Random random = new Random();
+				omikujicd = Integer.toString(random.nextInt(count));
 			}
 
 			// omikujicdで結果を検索
@@ -177,7 +186,6 @@ public class Uranai extends HttpServlet {
 				omikuji.setGakumon(omikujiRs.getString("gakumon"));
 
 			}
-
 			session.setAttribute("omikuji", omikuji);
 
 			// 同じデータ存在しない場合insert
@@ -190,7 +198,6 @@ public class Uranai extends HttpServlet {
 				uranaiResult.setString(5, "姜悦");
 				uranaiResult.executeUpdate();
 			}
-
 			response.sendRedirect(showResult);
 			return;
 

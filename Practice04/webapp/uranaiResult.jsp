@@ -25,8 +25,6 @@ p {
 	<!-- 結果取得 -->
 	<%
 	Omikuji omikuji = (Omikuji) session.getAttribute("omikuji");
-	String result = "🔯" + "　" + omikuji.disp() + "🔯" + "　" + "," + omikuji.getNegaigoto() + "," + omikuji.getAkinai()
-			+ "," + omikuji.getGakumon();
 	%>
 
 	<!-- 改行出力 -->
@@ -35,7 +33,9 @@ p {
 		return newStr;
 	}%>
 
-	<p><%=convertBR(result)%></p>
+	<!-- 結果表示 -->
+	<p><%=convertBR(omikuji.result())%></p>
+
 
 	<form class="back">
 		<input type="button" name="submit" onClick="history.back()" value="戻る">
