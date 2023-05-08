@@ -84,12 +84,13 @@ public class UranaiServlet extends HttpServlet {
 		try {
 			Class.forName("org.postgresql.Driver");
 		} catch (ClassNotFoundException e) {
-			System.out.println("ドライバの初期化が失敗しました。");
+			// エラーメッセージをセッションに保存
 			errMessage.setErrMessage("予期せぬエラーが発生しました。");
 			session.setAttribute("errMessage", errMessage);
+			// コンソールに出力
+			System.out.println("ドライバの初期化が失敗しました。");
 			response.sendRedirect(showUranai);
 			e.printStackTrace();
-			return;
 		}
 
 		try {
@@ -221,7 +222,6 @@ public class UranaiServlet extends HttpServlet {
 			}
 			// 結果画面に遷移
 			response.sendRedirect(showResult);
-			return;
 
 		} catch (ParseException e) {
 			// エラーメッセージをセッションに保存
@@ -231,7 +231,6 @@ public class UranaiServlet extends HttpServlet {
 			System.out.println(errMessage.getErrMessage());
 			// 占い画面に遷移
 			response.sendRedirect(showUranai);
-			return;
 		} catch (IOException e) {
 			// エラーメッセージをセッションに保存
 			errMessage.setErrMessage("予期せぬエラーが発生しました。");
@@ -241,7 +240,6 @@ public class UranaiServlet extends HttpServlet {
 			// 占い画面に遷移
 			response.sendRedirect(showUranai);
 			e.printStackTrace();
-			return;
 		} catch (SQLException e) {
 			// エラーメッセージをセッションに保存
 			errMessage.setErrMessage("DB接続にエラーが発生しました。");
@@ -251,7 +249,6 @@ public class UranaiServlet extends HttpServlet {
 			// 占い画面に遷移
 			response.sendRedirect(showUranai);
 			e.printStackTrace();
-			return;
 		}
 
 	}
