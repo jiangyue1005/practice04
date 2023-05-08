@@ -1,21 +1,27 @@
 package kadai4;
 
 /**
- * @author y_jiang エラーメッセージクラス
+ * エラーメッセージクラス
+ * 
+ * @author y_jiang
  */
 public class ErrMessage {
 	/** エラーメッセージ */
 	protected String errMessage;
 
 	/**
-	 * @return errMessage
+	 * エラーメッセージを取得する
+	 * 
+	 * @return エラーメッセージ
 	 */
 	public String getErrMessage() {
 		return errMessage;
 	}
 
 	/**
-	 * @param errMessage セットする errMessage
+	 * エラーメッセージを設定する
+	 * 
+	 * @param errMessage エラーメッセージ
 	 */
 	public void setErrMessage(String errMessage) {
 		this.errMessage = errMessage;

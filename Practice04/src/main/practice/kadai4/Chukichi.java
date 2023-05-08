@@ -1,5 +1,10 @@
 package kadai4;
 
+/**
+ * 中吉クラス
+ * 
+ * @author y_jiang
+ */
 public class Chukichi extends Omikuji {
 
 	/**

@@ -21,11 +21,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * @author y_jiang 占いクラス
+ * 占いサーブレットクラス
+ * 
+ * @author y_jiang
+ *
  */
 public class UranaiServlet extends HttpServlet {
+
 	/**
 	 * post処理メソッド
+	 * 
+	 * @param request  リクエスト情報
+	 * @param response レスポンス情報
 	 */
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,32 +41,44 @@ public class UranaiServlet extends HttpServlet {
 
 	/**
 	 * get処理メソッド
+	 * 
+	 * @param request  リクエスト情報
+	 * @param response レスポンス情報
 	 */
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		///////////////////// TB読み込む//////////////////////////////
+		/** データベースURL */
 		final String URL = "jdbc:postgresql://127.0.0.1:5432/postgres";
+		/** ユーザー名 */
 		final String USER = null;
+		/** パスワード */
 		final String PASS = null;
 
+		/** omikujiテーブル件数を検索するSQL */
 		final String SQL1 = "select COUNT( * ) from omikuji;";
+		/** omikujiテーブルに挿入するSQL */
 		final String SQL2 = "insert into omikuji (omikujicd,unseicd,negaigoto,akinai,gakumon,modifiedby,updatedate,createdby,createddate)values(nextval('omikujicd_seq'),?,?,?,?,?,CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP);";
+		/** resultテーブルに挿入するSQL */
 		final String SQL3 = "insert into result (uranaidate,birthday,omikujicd,modifiedby,updatedate,createdby,createddate)values(?,?,?,?,CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP);";
+		/** おみくじコードが一致する内容を検索するSQL */
 		final String SQL4 = "select * from omikuji where omikujicd = ?;";
+		/** 占い日と誕生日が一致する内容を検索するSQL */
 		final String SQL5 = "select * from result where uranaidate = ? and birthday = ?;";
 
 		Connection con = null;
 		HttpSession session = request.getSession();
 		ErrMessage errMessage = new ErrMessage();
 
+		// 結果画面
 		String showResult = "uranaiResult.jsp";
+		// 占い画面
 		String showUranai = "uranai.jsp";
 
 		// CSVファイル
 		File file = new File("/Users/y_jiang/Documents/unseiNew.csv");
 		FileReader fr = null;
-
+		// omikujiクラスの初期化
 		Omikuji omikuji = null;
 		// ドライバの初期化
 		try {
@@ -74,6 +93,7 @@ public class UranaiServlet extends HttpServlet {
 		}
 
 		try {
+			// DB接続
 			con = DriverManager.getConnection(URL, USER, PASS);
 			// omikujiテーブルにデータがすでに存在した場合、データの書き込みをスキップ。
 			PreparedStatement omikujiCount = con.prepareStatement(SQL1);
@@ -186,6 +206,7 @@ public class UranaiServlet extends HttpServlet {
 				omikuji.setGakumon(omikujiRs.getString("gakumon"));
 
 			}
+			// セッションに保存
 			session.setAttribute("omikuji", omikuji);
 
 			// 同じデータ存在しない場合insert
@@ -198,26 +219,36 @@ public class UranaiServlet extends HttpServlet {
 				uranaiResult.setString(5, "姜悦");
 				uranaiResult.executeUpdate();
 			}
+			// 結果画面に遷移
 			response.sendRedirect(showResult);
 			return;
 
 		} catch (ParseException e) {
-			System.out.println("入力された日付は存在しません。");
+			// エラーメッセージをセッションに保存
 			errMessage.setErrMessage("入力された日付は存在しません。");
 			session.setAttribute("errMessage", errMessage);
+			// コンソールに出力
+			System.out.println(errMessage.getErrMessage());
+			// 占い画面に遷移
 			response.sendRedirect(showUranai);
 			return;
 		} catch (IOException e) {
-			System.out.println("予期せぬエラーが発生しました。");
+			// エラーメッセージをセッションに保存
 			errMessage.setErrMessage("予期せぬエラーが発生しました。");
 			session.setAttribute("errMessage", errMessage);
+			// コンソールに出力
+			System.out.println(errMessage.getErrMessage());
+			// 占い画面に遷移
 			response.sendRedirect(showUranai);
 			e.printStackTrace();
 			return;
 		} catch (SQLException e) {
-			System.out.println("DB接続にエラーが発生しました。");
+			// エラーメッセージをセッションに保存
 			errMessage.setErrMessage("DB接続にエラーが発生しました。");
 			session.setAttribute("errMessage", errMessage);
+			// コンソールに出力
+			System.out.println(errMessage.getErrMessage());
+			// 占い画面に遷移
 			response.sendRedirect(showUranai);
 			e.printStackTrace();
 			return;

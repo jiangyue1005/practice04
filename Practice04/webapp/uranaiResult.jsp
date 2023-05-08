@@ -19,7 +19,7 @@ p {
 }
 </style>
 <meta charset="UTF-8">
-<title>占い結果</title>
+<title>🔯占い結果🔯</title>
 </head>
 <body>
 	<!-- 結果取得 -->
@@ -27,14 +27,31 @@ p {
 	Omikuji omikuji = (Omikuji) session.getAttribute("omikuji");
 	%>
 
-	<!-- 改行出力 -->
-	<%!public String convertBR(String s) {
-		String newStr = s.replaceAll(",", "<BR />");
-		return newStr;
-	}%>
-
 	<!-- 結果表示 -->
-	<p><%=convertBR(omikuji.result())%></p>
+	<p>
+		<%
+		//運勢
+		out.print("🔯" + " " + omikuji.disp() + " " + "🔯");
+		%>
+	</p>
+	<p>
+		<%
+		//願い事
+		out.print(omikuji.getNegaigoto());
+		%>
+	</p>
+	<p>
+		<%
+		//商い
+		out.print(omikuji.getAkinai());
+		%>
+	</p>
+	<p>
+		<%
+		//学問
+		out.print(omikuji.getGakumon());
+		%>
+	</p>
 
 
 	<form class="back">

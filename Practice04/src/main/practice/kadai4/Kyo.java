@@ -1,5 +1,11 @@
 package kadai4;
 
+/**
+ * 凶クラス
+ * 
+ * @author y_jiang
+ *
+ */
 public class Kyo extends Omikuji {
 
 	/**
